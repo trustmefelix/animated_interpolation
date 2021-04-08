@@ -28,27 +28,29 @@ class MyApp extends StatelessWidget {
 }
 
 class AnimatedCell extends StatelessWidget {
-  AnimatedCell({this.configMap,this.text,this.autoPlay = false,this.curve});
-  final Map<double,AnimatedConfig> configMap;
-  final String text;
-  final bool autoPlay;
-  final Curve curve;
+  AnimatedCell({this.configMap, this.text, this.autoPlay = false, this.curve});
+
+  final Map<double?, AnimatedConfig?>? configMap;
+  final String? text;
+  final bool? autoPlay;
+  final Curve? curve;
+
   @override
   Widget build(BuildContext context) {
     GlobalKey<SmartAnimatedWidgetState> key = GlobalKey<SmartAnimatedWidgetState>();
 
     return GestureDetector(
       onTap: () {
-        key.currentState.animate();
+        key.currentState!.animate();
       },
       child: SmartAnimatedWidget(
-          configMap: configMap,
+          configMap: configMap!,
           key: key,
-          autoPlay: autoPlay,
+          autoPlay: autoPlay!,
           curve: curve,
-          onAnimationEnd: (){
-            Future.delayed(Duration(milliseconds: 200),(){
-              if(autoPlay == false)key.currentState.reset();
+          onAnimationEnd: () {
+            Future.delayed(Duration(milliseconds: 200), () {
+              if (autoPlay == false) key.currentState!.reset();
             });
           },
           iterationCount: 1,
@@ -59,40 +61,111 @@ class AnimatedCell extends StatelessWidget {
             width: double.infinity,
             color: Colors.red.shade300,
             child: Center(
-              child: Text(text),
+              child: Text(text!),
             ),
           )),
     );
   }
 }
 
-List<AnimatedCell> cells= [
-  AnimatedCell(configMap: fadeInDown,text: "fadeInDown",autoPlay: true,),
-  AnimatedCell(configMap: fadeInUp,text: "fadeInUp",autoPlay: true,),
-  AnimatedCell(configMap: fadeInLeft,text: "fadeInLeft",autoPlay: true,),
-  AnimatedCell(configMap: fadeInRight,text: "fadeInRight",autoPlay: true,),
-  AnimatedCell(configMap: bounceIn,text: "bounceIn",autoPlay: true,),
-  AnimatedCell(configMap: bounceInUp,text: "bounceInUp",autoPlay: true,),
-  AnimatedCell(configMap: bounceInDown,text: "bounceInDown",autoPlay: true,),
-  AnimatedCell(configMap: bounceInLeft,text: "bounceInLeft",autoPlay: true,),
-  AnimatedCell(configMap: bounceInRight,text: "bounceInRight",autoPlay: true,),
-  AnimatedCell(configMap: bounceOut,text: "bounceout"),
-  AnimatedCell(configMap: bounceOutDown,text: "bounceOutDown"),
-  AnimatedCell(configMap: bounceOutUp,text: "bounceOutUp"),
-  AnimatedCell(configMap: bounceOutLeft,text: "bounceOutLeft"),
-  AnimatedCell(configMap: bounceOutRight,text: "bounceOutRight"),
-  AnimatedCell(configMap: slideInUp,text: "slideInUp",autoPlay: true,),
-  AnimatedCell(configMap: slideInDown,text: "slideInDown",autoPlay: true,),
-  AnimatedCell(configMap: slideInLeft,text: "slideInLeft",autoPlay: true,),
-  AnimatedCell(configMap: slideInRight,text: "slideInRight",autoPlay: true,),
-  AnimatedCell(configMap: slideOutUp,text: "slideOutUp"),
-  AnimatedCell(configMap: slideOutDown,text: "slideOutDown"),
-  AnimatedCell(configMap: slideOutLeft,text: "slideOutLeft"),
-  AnimatedCell(configMap: slideOutRight,text: "slideOutRight"),
-  AnimatedCell(configMap: lightSpeedIn,text: "lightSpeedIn",autoPlay: true,curve: lightSpeedInCurve,),
-  AnimatedCell(configMap: lightSpeedOut,text: "lightSpeedOut",curve: lightSpeedOutCurve,),
-  AnimatedCell(configMap: flipInX,text: "flipInX",autoPlay: true,curve: flipInCurve,),
-  AnimatedCell(configMap: flipInY,text: "flipInX",autoPlay: true,curve: flipInCurve,),
+List<AnimatedCell> cells = [
+  AnimatedCell(
+    configMap: fadeInDown,
+    text: "fadeInDown",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: fadeInUp,
+    text: "fadeInUp",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: fadeInLeft,
+    text: "fadeInLeft",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: fadeInRight,
+    text: "fadeInRight",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: bounceIn,
+    text: "bounceIn",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: bounceInUp,
+    text: "bounceInUp",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: bounceInDown,
+    text: "bounceInDown",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: bounceInLeft,
+    text: "bounceInLeft",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: bounceInRight,
+    text: "bounceInRight",
+    autoPlay: true,
+  ),
+  AnimatedCell(configMap: bounceOut, text: "bounceout"),
+  AnimatedCell(configMap: bounceOutDown, text: "bounceOutDown"),
+  AnimatedCell(configMap: bounceOutUp, text: "bounceOutUp"),
+  AnimatedCell(configMap: bounceOutLeft, text: "bounceOutLeft"),
+  AnimatedCell(configMap: bounceOutRight, text: "bounceOutRight"),
+  AnimatedCell(
+    configMap: slideInUp,
+    text: "slideInUp",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: slideInDown,
+    text: "slideInDown",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: slideInLeft,
+    text: "slideInLeft",
+    autoPlay: true,
+  ),
+  AnimatedCell(
+    configMap: slideInRight,
+    text: "slideInRight",
+    autoPlay: true,
+  ),
+  AnimatedCell(configMap: slideOutUp, text: "slideOutUp"),
+  AnimatedCell(configMap: slideOutDown, text: "slideOutDown"),
+  AnimatedCell(configMap: slideOutLeft, text: "slideOutLeft"),
+  AnimatedCell(configMap: slideOutRight, text: "slideOutRight"),
+  AnimatedCell(
+    configMap: lightSpeedIn,
+    text: "lightSpeedIn",
+    autoPlay: true,
+    curve: lightSpeedInCurve,
+  ),
+  AnimatedCell(
+    configMap: lightSpeedOut,
+    text: "lightSpeedOut",
+    curve: lightSpeedOutCurve,
+  ),
+  AnimatedCell(
+    configMap: flipInX,
+    text: "flipInX",
+    autoPlay: true,
+    curve: flipInCurve,
+  ),
+  AnimatedCell(
+    configMap: flipInY,
+    text: "flipInX",
+    autoPlay: true,
+    curve: flipInCurve,
+  ),
 ];
 
 class MyHomePage extends StatefulWidget {
@@ -101,15 +174,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   void reassemble() {
     // TODO: implement reassemble
     super.reassemble();
-    setState(() {
-
-    });
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("Animation"),
       ),
       body: SingleChildScrollView(
-        child:  Column(
+        child: Column(
           children: cells,
         ),
       ),

@@ -6,14 +6,14 @@ class AnimatedLogo1 extends AnimatedWidget {
   static final _sizeTween = new InterpolationTween(inputRange: [0,0.2,1], outputRange: [0,250,300]);
   static final _colorTween = ColorInterpolationTween(inputRange: [0,0.2,1],outputRange: [Colors.white,Colors.green,Colors.red]);
 
-  AnimatedLogo1({Key key, Animation<double> animation})
-      : super(key: key, listenable: animation);
+  AnimatedLogo1({Key? key, Animation<double?>? animation})
+      : super(key: key, listenable: animation!);
 
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
     return new Center(
       child: new Opacity(
-        opacity: createInterpolation(InterpolationConfigType(inputRange: [0,1], outputRange: [0.1,1]))(animation.value),
+        opacity: createInterpolation(InterpolationConfigType(inputRange: [0,1], outputRange: [0.1,1]))(animation.value)!,
         child: new Container(
           margin: new EdgeInsets.symmetric(vertical: 10.0),
           height: _sizeTween.evaluate(animation),
@@ -31,25 +31,25 @@ class LogoApp4 extends StatefulWidget {
 }
 
 class _LogoAppState extends State<LogoApp4> with TickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
+  AnimationController? controller;
+  Animation<double?>? animation;
 
   initState() {
     super.initState();
     controller = new AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
-    animation = new CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    animation = new CurvedAnimation(parent: controller!, curve: Curves.easeIn);
 
 
-    animation.addStatusListener((status) {
+    animation!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        controller.reverse();
+        controller!.reverse();
       } else if (status == AnimationStatus.dismissed) {
-        controller.forward();
+        controller!.forward();
       }
     });
 
-    controller.forward();
+    controller!.forward();
   }
 
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _LogoAppState extends State<LogoApp4> with TickerProviderStateMixin {
   }
 
   dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 }

@@ -11,10 +11,10 @@ class TabBarExample extends StatelessWidget {
           children: <Widget>[
             SmartTabBar(
               indicatorBuilder: (context,controller,indicator,indicatorSize,tabKeys,old)=>SweetIndicatorPainter(
-                controller: controller,
-                indicatorSize: indicatorSize,
-                indicator: indicator,
-                tabKeys: tabKeys,
+                controller: controller!,
+                indicatorSize: indicatorSize!,
+                indicator: indicator!,
+                tabKeys: tabKeys!,
                 old: old
               ),
               tabs: <Widget>[

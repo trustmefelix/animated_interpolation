@@ -16,25 +16,25 @@ export 'sweet_indicator_painter.dart';
 /// InterpolationTween(inputRange: [0,0.2,1], outputRange: [0,250,300]).evaluate(animation)
 ///
 ///
-class InterpolationTween extends Animatable<double> {
+class InterpolationTween extends Animatable<double?> {
   InterpolationTween({
-    @required this.inputRange,
-    @required this.outputRange,
+    required this.inputRange,
+    required this.outputRange,
     this.curve = const _Linear._(),
     this.extrapolate,
     this.extrapolateLeft = ExtrapolateType.extend,
     this.extrapolateRight = ExtrapolateType.extend,
   });
 
-  final List<double> inputRange;
-  final List<double> outputRange;
-  final Curve curve;
-  final ExtrapolateType extrapolate;
+  final List<double?> inputRange;
+  final List<double?> outputRange;
+  final Curve? curve;
+  final ExtrapolateType? extrapolate;
   final ExtrapolateType extrapolateLeft;
   final ExtrapolateType extrapolateRight;
 
   @override
-  double transform(double t) => createInterpolation(InterpolationConfigType(
+  double? transform(double t) => createInterpolation(InterpolationConfigType(
       inputRange: inputRange,
       outputRange: outputRange,
       curve: curve,
@@ -45,8 +45,8 @@ class InterpolationTween extends Animatable<double> {
 
 class ColorInterpolationTween extends Animatable<Color> {
   ColorInterpolationTween({
-    @required this.inputRange,
-    @required this.outputRange,
+    required this.inputRange,
+    required this.outputRange,
     this.curve = const _Linear._(),
     this.extrapolate,
     this.extrapolateLeft = ExtrapolateType.extend,
@@ -56,7 +56,7 @@ class ColorInterpolationTween extends Animatable<Color> {
   final List<double> inputRange;
   final List<Color> outputRange;
   final Curve curve;
-  final ExtrapolateType extrapolate;
+  final ExtrapolateType? extrapolate;
   final ExtrapolateType extrapolateLeft;
   final ExtrapolateType extrapolateRight;
   @override
@@ -69,7 +69,7 @@ class ColorInterpolationTween extends Animatable<Color> {
               curve: curve,
               extrapolate: extrapolate,
               extrapolateLeft: extrapolateLeft,
-              extrapolateRight: extrapolateRight))(t)
+              extrapolateRight: extrapolateRight))(t)!
           .toInt()
           .clamp(0, 255),
       createInterpolation(InterpolationConfigType(
@@ -78,7 +78,7 @@ class ColorInterpolationTween extends Animatable<Color> {
               curve: curve,
               extrapolate: extrapolate,
               extrapolateLeft: extrapolateLeft,
-              extrapolateRight: extrapolateRight))(t)
+              extrapolateRight: extrapolateRight))(t)!
           .toInt()
           .clamp(0, 255),
       createInterpolation(InterpolationConfigType(
@@ -87,7 +87,7 @@ class ColorInterpolationTween extends Animatable<Color> {
               curve: curve,
               extrapolate: extrapolate,
               extrapolateLeft: extrapolateLeft,
-              extrapolateRight: extrapolateRight))(t)
+              extrapolateRight: extrapolateRight))(t)!
           .toInt()
           .clamp(0, 255),
       createInterpolation(InterpolationConfigType(
@@ -96,7 +96,7 @@ class ColorInterpolationTween extends Animatable<Color> {
               curve: curve,
               extrapolate: extrapolate,
               extrapolateLeft: extrapolateLeft,
-              extrapolateRight: extrapolateRight))(t)
+              extrapolateRight: extrapolateRight))(t)!
           .toInt()
           .clamp(0, 255),
     );
@@ -123,8 +123,8 @@ class _Linear extends Curve {
 ///
 class InterpolationConfigType {
   InterpolationConfigType({
-    @required this.inputRange,
-    @required this.outputRange,
+    required this.inputRange,
+    required this.outputRange,
     this.curve = const _Linear._(),
     this.extrapolate,
     this.extrapolateLeft = ExtrapolateType.extend,
@@ -135,10 +135,10 @@ class InterpolationConfigType {
         assert(outputRange.length >= 2),
         assert(inputRange.length == outputRange.length);
 
-  final List<double> inputRange;
-  final List<double> outputRange;
-  final Curve curve;
-  final ExtrapolateType extrapolate;
+  final List<double?> inputRange;
+  final List<double?> outputRange;
+  final Curve? curve;
+  final ExtrapolateType? extrapolate;
   final ExtrapolateType extrapolateLeft;
   final ExtrapolateType extrapolateRight;
 }
@@ -146,10 +146,10 @@ class InterpolationConfigType {
 ///
 /// 找到输入值所属范围
 ///
-int findRange(double input, List<double> inputRange) {
+int findRange(double? input, List<double?> inputRange) {
   int i;
   for (i = 1; i < inputRange.length - 1; ++i) {
-    if (inputRange[i] >= input) {
+    if (inputRange[i]! >= input!) {
       break;
     }
   }
@@ -159,14 +159,14 @@ int findRange(double input, List<double> inputRange) {
 ///
 /// 创造插值函数
 ///
-DoubleCallBack<double> createInterpolation(InterpolationConfigType config) {
-  return (double input) {
+DoubleCallBack<double?> createInterpolation(InterpolationConfigType config) {
+  return (double? input) {
     int range = findRange(input, config.inputRange);
 
-    ExtrapolateType extrapolateLeft = config.extrapolateLeft;
+    ExtrapolateType? extrapolateLeft = config.extrapolateLeft;
     if (config.extrapolate != null) extrapolateLeft = config.extrapolate;
 
-    ExtrapolateType extrapolateRight = config.extrapolateRight;
+    ExtrapolateType? extrapolateRight = config.extrapolateRight;
     if (config.extrapolate != null) extrapolateRight = config.extrapolate;
     ///
     /// 由于flutter中Curve.transform使用assert限制在0-1之间
@@ -174,8 +174,8 @@ DoubleCallBack<double> createInterpolation(InterpolationConfigType config) {
     /// 中不同
     ///
     return interpolate(
-      input: input,
-      inputMin: config.inputRange[range],
+      input: input!,
+      inputMin: config.inputRange[range]!,
       inputMax: config.inputRange[range + 1],
       outputMin: config.outputRange[range],
       outputMax: config.outputRange[range + 1],
@@ -189,15 +189,15 @@ DoubleCallBack<double> createInterpolation(InterpolationConfigType config) {
 ///
 /// 插值计算实现
 ///
-double interpolate({
-  double input,
-  double inputMin,
-  double inputMax,
-  double outputMin,
-  double outputMax,
-  Curve curve = const _Linear._(),
-  ExtrapolateType extrapolateLeft,
-  ExtrapolateType extrapolateRight,
+double? interpolate({
+  required double input,
+  required double inputMin,
+  double? inputMax,
+  double? outputMin,
+  double? outputMax,
+  Curve? curve = const _Linear._(),
+  ExtrapolateType? extrapolateLeft,
+  ExtrapolateType? extrapolateRight,
 }) {
   double result = input;
 
@@ -212,7 +212,7 @@ double interpolate({
     }
   }
 
-  if (result > inputMax) {
+  if (result > inputMax!) {
     if (extrapolateRight == ExtrapolateType.identity) {
       return result;
     } else if (extrapolateRight == ExtrapolateType.clamp) {
@@ -250,9 +250,9 @@ double interpolate({
   if (outputMin == -double.infinity) {
     result = -result;
   } else if (outputMax == double.infinity) {
-    result = result + outputMin;
+    result = result + outputMin!;
   } else {
-    result = result * (outputMax - outputMin) + outputMin;
+    result = result * (outputMax! - outputMin!) + outputMin;
   }
 
   return result;
